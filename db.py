@@ -1,3 +1,4 @@
 import pymongo
 
-def initDb()
+def initDb():
+    
