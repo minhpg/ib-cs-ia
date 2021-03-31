@@ -13,7 +13,9 @@ class User(BaseModel):
 
 @router.post('/login')
 async def login(user: User):
+    pass
 
 @router.post('/create')
 async def create(user: User):
+    pass
     
