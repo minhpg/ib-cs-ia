@@ -1,6 +1,14 @@
-import pymongo
+from mongoengine import *
 import config
-client = pymongo.MongoClient(config.MONGO_SERVER)
-database = client[config.MONGO_DB]
+
+connect(config.MONGO_DB)
+
+class User(Document):
+    username = StringField(required=True)
+    password = StringField(required=True)
+
+class Post(Document):
+    pass
+
 
     

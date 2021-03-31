@@ -11,7 +11,6 @@ router = APIRouter(
 
 class User(BaseModel):
     username: str
-    email: EmailStr
     password: str
 
 
@@ -29,5 +28,10 @@ async def login(user: User):
 
 @router.post('/create')
 async def create(user: User):
-    pass
+    db.User(
+        username = user.username,
+        password = user.password
+    ).save()
+
+
     
