@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
 from pydantic import BaseModel, EmailStr
-from models import user as userModel
+from app.models import user as userModel
 import uuid
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
@@ -26,12 +26,18 @@ def authExceptionHandler(request: Request, exc: AuthJWTException):
 @router.middleware("http")
 async def successfulRequest(request: Request, call_next):
     response = await call_next(request)
-    return {'message' : 'successful', 'data' : response}
+    return {'message' : 'successful', 'data' : response }
 
 @router.post('/login')
-async def login(user: User):
+async def login(user: User, Authorize: AuthJWT = Depends()):
     data = db.User.objects(user.username)
-    pass
+    if len(data) > 0:
+        if data[0].password == user.password:
+            access_token = Authorize.create_access_token(subject=data[0].user_id)
+            return {"access_token": access_token}
+        raise HTTPException(status_code=403,detail='invalid password')
+    raise HTTPException(status_code=403,detail='invalid username')
+        
 
 @router.post('/create')
 async def create(user: User):

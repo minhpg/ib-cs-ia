@@ -1,5 +1,5 @@
 from mongoengine import *
-import config
+import app.config as config
 
 connect(config.MONGO_DB)
 

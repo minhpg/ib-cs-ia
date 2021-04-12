@@ -6,7 +6,6 @@ router = APIRouter(
 )
 
 
-
 @router.middleware("http")
 async def verifyAuthorization(request: Request, call_next):
 
